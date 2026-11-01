@@ -17,7 +17,7 @@ Why another DeskLib32? The prebuilt DeskLib32 of Andrew Youll is built with Norc
 and the older GCC-built DeskLib is for the old APCS-32 ABI (GCC 4.7). This one is built with the current tool chain
 (EABI, VFP hard float, the UnixLib of that tool chain).
 
-**Status: first version.** The whole library builds (520 objects, none failed) and the 24 demonstration and test applications
+**Status: first version.** The whole library builds (515 objects, none failed) and the 24 demonstration and test applications
 in `tests/` build. See [docs/STATUS.md](docs/STATUS.md) for what has been run on a machine.
 
 ## Build
@@ -50,13 +50,14 @@ TC32/bin/arm-riscos-gnueabihf-strip -o '!MyApp/!RunImage,e1f' RunImage.elf
   structures ...): write `DL_PTR (pointer)` to store one and `DL_P (value)` to read it. See
   [docs/MODIFICATIONS64.md](docs/MODIFICATIONS64.md) for the list.
 * Not built: `BackTrace` (it needs Norcroft's stack frames), `PCI` and `USB` (hardware) and `Compat` (the `snprintf` that Norcroft
-  programs need; GCC's C library has it).
+  programs need; GCC's C library has it). `Mem` is `gcc/Mem.c`, a version on `malloc` (DeskLib's own cannot work with UnixLib).
 
 ## Layout
 
 ```
 src/            DeskLib: include/ (headers), oldinclude/ (compatibility headers), Libraries/ (C and ARM assembler)
 build.sh        builds the library
+gcc/            Mem.c: the Mem library on malloc, built instead of src/Libraries/Mem
 tools/          asasm-fix.sh
 tests/          demonstration and test applications (the DeskLib64 ones, built for 32 bits) and their build.sh
 docs/           STATUS.md, MODIFICATIONS64.md (what DeskLib64 changed in DeskLib32), PORTING.md
