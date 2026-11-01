@@ -1,0 +1,3 @@
+| DeskLib32 gaps2 test
+Set DLGaps2$Dir <Obey$Dir>
+Run <Obey$Dir>.!RunImage

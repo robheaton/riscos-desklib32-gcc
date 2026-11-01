@@ -1,0 +1,3 @@
+| DeskLib32 taskwindow test
+Set DLTaskWindow$Dir <Obey$Dir>
+Run <Obey$Dir>.!RunImage

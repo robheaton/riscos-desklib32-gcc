@@ -1,0 +1,3 @@
+| DeskLib32 font3 test
+Set DLFont3$Dir <Obey$Dir>
+Run <Obey$Dir>.!RunImage
