@@ -19,6 +19,8 @@ The test applications are the ones of DeskLib64 (see its `docs/STATUS.md` for wh
 
 363 checks of the seven command line programs pass.
 
+A large Wimp program built with the library, the Witter chat client (windows and dialogues made in code, menus, icons, the event loop, sprites, fonts, a scroll wheel, drag and drop of files), starts, saves its settings and works on the same Compute Module 4. That exercises the `Event`, `EventMsg`, `Window`, `Icon`, `Menu`, `Pane2`, `Sprite` and `Font` parts in daily use, but it is not a test of each function: the desktop test applications above are still to be run.
+
 ## Known risks
 * The `Mem` library (`Libraries/Mem`) is DeskLib's own heap, which DeskLib64 replaced by one on `malloc`; the 32 bit build uses DeskLib's, and `cleartest` is the first thing that runs it.
 * The veneers keep the old APCS register rules (r4-r9 saved, `ip` = the argument pointer); GCC's EABI keeps the same for these registers. Only `Menu/FontMenu3.s` calls C (`malloc` and `free`), possibly with a stack that is not 8-byte aligned, which the C library of the tool chain has to tolerate; the font menu test (`font`) is the one that runs it.
