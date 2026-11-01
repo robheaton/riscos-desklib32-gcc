@@ -18,8 +18,8 @@ and the older GCC-built DeskLib is for the old APCS-32 ABI (GCC 4.7). This one i
 (EABI, VFP hard float, the UnixLib of that tool chain).
 
 **Status: first version.** The whole library builds (515 objects, none failed) and the 24 demonstration and test applications
-in `tests/` build. Four of the command line tests have passed on a Compute Module 4 (231 checks); others are not run yet or
-failed: see [docs/STATUS.md](docs/STATUS.md). Please report problems as issues.
+in `tests/` build. The seven command line tests have passed on a Compute Module 4 (363 checks); the desktop applications have not been run yet:
+see [docs/STATUS.md](docs/STATUS.md). Please report problems as issues.
 
 ## Build
 
@@ -51,14 +51,14 @@ TC32/bin/arm-riscos-gnueabihf-strip -o '!MyApp/!RunImage,e1f' RunImage.elf
   structures ...): write `DL_PTR (pointer)` to store one and `DL_P (value)` to read it. See
   [docs/MODIFICATIONS64.md](docs/MODIFICATIONS64.md) for the list.
 * Not built: `BackTrace` (it needs Norcroft's stack frames), `PCI` and `USB` (hardware) and `Compat` (the `snprintf` that Norcroft
-  programs need; GCC's C library has it). `Mem` is `gcc/Mem.c`, a version on `malloc` (DeskLib's own cannot work with UnixLib).
+  programs need; GCC's C library has it). `Mem` is `gcc/Mem.c`, a version on `malloc` (DeskLib's own cannot work with UnixLib), and `Sprite_AppendP` is `gcc/SpriteAppendP.c` (the assembler veneer of DeskLib passes the wrong thing to the OS).
 
 ## Layout
 
 ```
 src/            DeskLib: include/ (headers), oldinclude/ (compatibility headers), Libraries/ (C and ARM assembler)
 build.sh        builds the library
-gcc/            Mem.c: the Mem library on malloc, built instead of src/Libraries/Mem
+gcc/            Mem.c (the Mem library on malloc) and SpriteAppendP.c: built instead of src/Libraries/Mem and Sprite/35AppendP.s
 tools/          asasm-fix.sh
 tests/          demonstration and test applications (the DeskLib64 ones, built for 32 bits) and their build.sh
 docs/           STATUS.md, MODIFICATIONS64.md (what DeskLib64 changed in DeskLib32), PORTING.md

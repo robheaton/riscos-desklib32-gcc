@@ -12,9 +12,12 @@ The test applications are the ones of DeskLib64 (see its `docs/STATUS.md` for wh
 | `misctest` | 61 of 61 pass |
 | `filetest` | 81 of 81 pass |
 | `spritetest` | 38 of 38 pass |
-| `cleartest` | failed on the first run: DeskLib's own `Mem_Initialise` returns FALSE under UnixLib. Fixed by `gcc/Mem.c`; **not run again yet** |
-| `sprite2test` | **hung** the machine's test agent; not understood yet (library or test) |
-| `msgtest`, `colourtest` and the desktop applications (`!DLHello`, `!DLDemo2`, `!DLDialogs` ...) | **not run yet** |
+| `sprite2test` | 80 of 80 pass (the first run found that `Sprite_AppendP` of DeskLib's assembler passes the name of the second sprite where the OS wants its address, the bug that DeskLib64 documents as C16: the OS then reads the name as a sprite header and corrupts memory, and the program aborted at its end. `gcc/SpriteAppendP.c` replaces the veneer) |
+| `cleartest` | 20 of 20 pass (the first run found that DeskLib's own `Mem_Initialise` returns FALSE under UnixLib; `gcc/Mem.c` replaces `Mem`) |
+| `msgtest` | 32 of 32 pass |
+| `colourtest` and the desktop applications (`!DLHello`, `!DLDemo2`, `!DLDialogs`, `!DLGaps` ...) | **not run yet** |
+
+363 checks of the seven command line programs pass.
 
 ## Known risks
 * The `Mem` library (`Libraries/Mem`) is DeskLib's own heap, which DeskLib64 replaced by one on `malloc`; the 32 bit build uses DeskLib's, and `cleartest` is the first thing that runs it.

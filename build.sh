@@ -4,7 +4,7 @@
 #   ASASM  GCCSDK's asasm, the assembler for ObjAsm syntax                              default: asasm on the PATH, or ~/gccsdk/cross/bin/asasm
 #   JOBS   how many files to build at once                                              default: 8
 # DeskLib's 259 ARM assembler veneers (the .s files of src/Libraries, unchanged) are assembled by asasm and tools/asasm-fix.sh makes the objects linkable with GCC 16's.
-# Not built: BackTrace (it needs Norcroft's stack frames), PCI and USB (hardware), Compat (the snprintf that Norcroft programs need), Mem (gcc/Mem.c, a version on malloc, is built instead).
+# Not built: BackTrace (it needs Norcroft's stack frames), PCI and USB (hardware), Compat (the snprintf that Norcroft programs need), Mem and Sprite/35AppendP.s (gcc/Mem.c and gcc/SpriteAppendP.c are built instead).
 set -e
 HERE=$(cd "$(dirname "$0")" && pwd)
 TC32=${1:-${TC32:?give the 32 bit tool chain folder as the first argument or in TC32}}
@@ -23,7 +23,7 @@ for h in "$SRC"/include/*.h "$SRC"/oldinclude/*.h; do
 done
 # the defaults of the tool chain (ARMv7-A, VFPv3, hard float) run on every 32 bit machine with RISC OS 5 and a VFP
 FLAGS="-std=gnu17 -O2 -fsigned-char -w -I $W/shim -I $SRC/include -I $SRC/oldinclude -I $SRC/Libraries"
-SKIP='/BackTrace/|/PCI/|/USB/|/Compat/|/Mem/'
+SKIP='/BackTrace/|/PCI/|/USB/|/Compat/|/Mem/|/Sprite/35AppendP\.s'
 : > "$W/log"
 one() {
   f=$1; r=${f#$SRC/Libraries/}; r=${r#$HERE/}; n=$(echo "$r" | sed 's|/|_|g; s|\.[cs]$||')
@@ -33,7 +33,7 @@ one() {
   esac || echo "FAILED $f" >> "$W/log"
 }
 export -f one; export CC FLAGS W SRC ASASM FIX HERE
-{ find "$SRC/Libraries" \( -name '*.c' -o -name '*.s' \) | grep -v -E "$SKIP"; echo "$HERE/gcc/Mem.c"; } | sort | xargs -P "$JOBS" -I{} bash -c 'one {}'
+{ find "$SRC/Libraries" \( -name '*.c' -o -name '*.s' \) | grep -v -E "$SKIP"; ls "$HERE"/gcc/*.c; } | sort | xargs -P "$JOBS" -I{} bash -c 'one {}'
 bad=$(grep -c '^FAILED' "$W/log" || true)
 $AR rcs "$D/lib/libDeskLib32.a" "$W"/obj/*.o
 cp "$W"/shim/DeskLib:*.h "$D/include/"
