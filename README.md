@@ -18,7 +18,8 @@ and the older GCC-built DeskLib is for the old APCS-32 ABI (GCC 4.7). This one i
 (EABI, VFP hard float, the UnixLib of that tool chain).
 
 **Status: first version.** The whole library builds (515 objects, none failed) and the 24 demonstration and test applications
-in `tests/` build. See [docs/STATUS.md](docs/STATUS.md) for what has been run on a machine.
+in `tests/` build. Four of the command line tests have passed on a Compute Module 4 (231 checks); others are not run yet or
+failed: see [docs/STATUS.md](docs/STATUS.md). Please report problems as issues.
 
 ## Build
 
